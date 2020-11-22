@@ -5,7 +5,7 @@ model/
 research/
 exceptation/
 __pycache__/
-## addition_file/
+addition_file/
 
 ##############################
 ##          conf            ##
@@ -13,3 +13,5 @@ __pycache__/
 config.py
 mirai-api-http-v1.8.4.jar
 DenseNet121_NSFW.pth
+img_count_file.log
+qndxx_link_idx.log

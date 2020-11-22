@@ -16,6 +16,7 @@ from graia.application.interrupt.interrupts import GroupMessageInterrupt
 from graia.broadcast.interrupt.waiter import Waiter
 from graia.application.event.messages import GroupMessage
 
+from config import configs as myconfigs
 import time
 import datetime
 from Qndxx import getCurQndxxLink
@@ -28,9 +29,8 @@ from smartChat import xiaoice
 
 test_group = 557116842
 use_group = 1054423346
-reboot_id = 2683944199
 reboot_psd = "MINGreboot558"
-# reboot_id = 193174244
+reboot_id = myconfigs['rebootID']
 push_hour = 12
 
 inTiming = False
@@ -44,7 +44,7 @@ app = GraiaMiraiApplication(
     broadcast=bcc,
     connect_info=Session(
         host="http://localhost:"+str(myconfigs['port']), # 填入 httpapi 服务运行的地址
-        authKey="INITKEYXBpVyzgt", # 填入 authKey
+        authKey=myconfigs['authKey'], # 填入 authKey
         account = reboot_id, # 你的机器人的 qq 号
         websocket=True # Graia 已经可以根据所配置的消息接收的方式来保证消息接收部分的正常运作.
     )
