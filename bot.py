@@ -38,12 +38,12 @@ inTiming = False
 loop = asyncio.get_event_loop()
 
 bcc = Broadcast(loop=loop)
-inc = InterruptControl(bcc)
+# inc = InterruptControl(bcc)
 
 app = GraiaMiraiApplication(
     broadcast=bcc,
     connect_info=Session(
-        host="http://localhost:9098", # 填入 httpapi 服务运行的地址
+        host="http://localhost:9099", # 填入 httpapi 服务运行的地址
         authKey="INITKEYXBpVyzgt", # 填入 authKey
         account = reboot_id, # 你的机器人的 qq 号
         websocket=True # Graia 已经可以根据所配置的消息接收的方式来保证消息接收部分的正常运作.
@@ -62,6 +62,7 @@ def myMenu():
 5. /setu (懂的都懂，质量不好不要骂，随机找的)
 6. /qbhn
 7. /yjny
+8. /cycny
 当前*小茗女友*还在开发当中哦~ 敬请期待~
 '''
     return menu
@@ -167,6 +168,14 @@ async def group_message_handler(
             await app.sendGroupMessage(group, MessageChain.create([
                 At(member.id), Plain("检索失败，重新尝试~")
             ]))
+    
+    elif group.id in [test_group, use_group] and message.asDisplay().startswith("/cycny"):
+        files = os.listdir(myconfigs['cycny_dir'])
+        rnd_file = files[random.randint(0, len(files)-1)]
+        img_path = os.path.join(myconfigs['cycny_dir'], rnd_file)
+        await app.sendGroupMessage(group, MessageChain.create([
+                At(member.id), GiImage.fromLocalFile(img_path), Plain("卡哇伊~")
+            ]))
 
     if group.id in [test_group, use_group] and message.has(GiImage):
         for img in message.get(GiImage):
@@ -175,8 +184,6 @@ async def group_message_handler(
                 print(img_file)
                 if falsePositive(img_file):
                     continue
-                # test_img = await img.http_to_bytes()
-                # print(test_img)
                 global nsfw
                 checkres = nsfw.infer(img_file)
                 topres = checkres[0]
@@ -226,5 +233,5 @@ async def group_message_handler(
 nsfw = NSFWEstimator(myconfigs['nsfw_path'])
 print("[Log] load img model done!")
 # porn_detection_lstm = hub.Module(name="porn_detection_lstm")
-print("[Log] load Text model done!")
+# print("[Log] load Text model done!")
 app.launch_blocking()
