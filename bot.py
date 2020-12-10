@@ -29,7 +29,7 @@ from smartChat import xiaoice
 
 test_group = 557116842
 use_group = 1054423346
-reboot_psd = "MINGreboot558"
+
 reboot_id = myconfigs['rebootID']
 push_hour = 12
 
